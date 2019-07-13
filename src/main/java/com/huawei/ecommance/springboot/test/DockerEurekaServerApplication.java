@@ -8,6 +8,7 @@ public class DockerEurekaServerApplication {
 
 	public static void main(String[] args) {
 		System.out.println("sdfdsf");
+		System.out.println("sdfdsf");
 		SpringApplication.run(DockerEurekaServerApplication.class, args);
 	}
 }
