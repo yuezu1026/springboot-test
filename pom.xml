@@ -1,84 +1,65 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-
-    <groupId>com.huawei.ecommance</groupId>
-    <artifactId>springboot-test</artifactId>
-    <version>0.0.1</version>
-    <packaging>jar</packaging>
-
-    <name>springboot-test</name>
-    <description>Demo project for Spring Boot</description>
-
-    <parent>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>gs-spring-boot-docker-master</groupId>
+  <artifactId>gs-spring-boot-docker-master</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>jar</packaging>  
+  
+  <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.4.3.RELEASE</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <version>2.0.2.RELEASE</version>
+        <relativePath />
     </parent>
 
     <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>  
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <!--properties节点中设置docker镜像的前缀“springboot”-->  
+        <docker.image.prefix>springio</docker.image.prefix>
         <java.version>1.8</java.version>
-        <docker.repostory>registry.cn-hangzhou.aliyuncs.com</docker.repostory>
-        <docker.registry.name>yuezu1026</docker.registry.name>
     </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <!-- tag::plugin[] -->    
+            <plugin>    
+                <groupId>com.spotify</groupId>    
+                <artifactId>docker-maven-plugin</artifactId>    
+                <version>0.4.13</version>    
+                <configuration>    
+                    <imageName>${docker.image.prefix}/${project.artifactId}</imageName>    
+                    <dockerDirectory>src/main/docker</dockerDirectory>    
+                    <resources>    
+                        <resource>    
+                            <targetPath>/</targetPath>    
+                            <directory>${project.build.directory}</directory>    
+                            <include>${project.build.finalName}.jar</include>    
+                        </resource>    
+                    </resources>    
+                </configuration>    
+            </plugin>    
+            <!-- end::plugin[] -->    
+
+        </plugins>
+        
+        <!--<finalName>gs-spring-boot-docker-master</finalName>-->
+    </build>
 
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-        
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-devtools</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-        
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>
-
-    <build>
-        <resources><!-- 使用@@站位符，输出Dockerfile至docker文件夹 -->
-            <resource>
-                <directory>src/main/docker</directory>
-                <filtering>true</filtering>
-                <includes>
-                    <include>**/Dockerfile</include>
-                </includes>
-                <targetPath>../docker</targetPath>
-            </resource>
-        </resources>
-        <plugins>
-				<plugin>
-                <groupId>com.spotify</groupId>
-                <artifactId>docker-maven-plugin</artifactId>
-                <version>0.4.13</version>
-                <configuration>
-                    <dockerHost>http://192.168.19.128:2375</dockerHost>
-                    <imageName>${project.artifactId}</imageName>
-                    <dockerDirectory>src/main/docker</dockerDirectory>
-                    <resources>
-                        <resource>
-                            <targetPath>/</targetPath>
-                            <directory>${project.build.directory}</directory>
-                            <include>${project.build.finalName}.jar</include>
-                        </resource>
-                    </resources>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
+  
 </project>
