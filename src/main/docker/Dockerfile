@@ -1,37 +1,6 @@
-
-#Version 0.0.1
 FROM java:8
- 
-MAINTAINER Ryuu KK "ryuu_kk@163.com"
- 
-#环境变量
-ENV WORK_PATH /home/project/dockerdemo
-ENV APP_NAME @project.build.finalName@.@project.packaging@
-ENV APP_VERSION @project.version@
- 
-EXPOSE 8080
- 
-#USER
-#USER user:group
- 
-#VOLUME
-VOLUME ["/home/project", "/tmp/data"]
- 
-#ADD
- 
-#COPY
-COPY $APP_NAME $WORK_PATH/
- 
-#LABEL
-#STOPSIGNAL
-#ARG
-#ONBUILD
- 
-# WORKDIR
-WORKDIR $WORK_PATH
- 
-# ENTRYPOINT 
-ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom"]
- 
-# CMD
-CMD ["-jar", "@project.build.finalName@.@project.packaging@"]
+VOLUME /temp
+ADD eureka-service-1.0.jar app.jar
+RUN bash -c 'touch /app.jar'
+EXPOSE 8088
+ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
