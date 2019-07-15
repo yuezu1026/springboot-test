@@ -27,12 +27,12 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
             <!-- tag::plugin[] -->    
-            <!-- <plugin>    
+            <plugin>    
                 <groupId>com.spotify</groupId>    
                 <artifactId>docker-maven-plugin</artifactId>    
                 <version>0.4.13</version>    
                 <configuration>  
-               		<dockerHost>http://192.168.19.128:2375</dockerHost>  
+               		<dockerHost>http://192.168.19.130:2375</dockerHost>  
                     <imageName>${docker.image.prefix}/${project.artifactId}</imageName>    
                     <dockerDirectory>src/main/docker</dockerDirectory>    
                     <resources>    
@@ -43,7 +43,7 @@
                         </resource>    
                     </resources>    
                 </configuration>    
-            </plugin>     -->
+            </plugin>     
             <!-- end::plugin[] -->    
 
         </plugins>
